@@ -3,12 +3,14 @@
 namespace App\Models;
 
 require_once '../public/bootstrap.php';
+
 use App\Models\ContaBancaria;
+use App\Exceptions\ContaException;
 
 class ContaCorrente extends ContaBancaria {
 
-    private $limiteDeCredito;
-    public $taxaDeTransferencia;
+    private float $limiteDeCredito;
+    protected float $taxaDeTransferencia = 7;
 
     public function __construct($titular, $saldo = 0, $limiteDeCredito = 0)
     {
@@ -20,7 +22,7 @@ class ContaCorrente extends ContaBancaria {
     {
 
         if($valor > ($this->saldo + $this->limiteDeCredito)) {
-            throw new \Exception('Saldo + créditos insuficientes');
+            throw new ContaException('Saldo + créditos insuficientes');
         } 
 
         if ($valor > 0 && $valor <= ($this->saldo + $this->limiteDeCredito)) {

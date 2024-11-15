@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
-use Exception;
+require_once 'bootstrap.php';
+
+use App\Exceptions\ContaException;
+
 
 class ContaBancaria {
 
@@ -33,7 +36,7 @@ class ContaBancaria {
     public function sacar (float $valor) 
     {
         if($valor > $this->saldo) {
-            throw new \Exception('Saldo insuficiente');
+            throw new ContaException('Saldo insuficiente');
         } 
 
         if ($valor > 0 && $valor <= $this->saldo) {
